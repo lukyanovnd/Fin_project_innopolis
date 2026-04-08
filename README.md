@@ -30,18 +30,25 @@
 Все необходимые для работы приложения зависимости находятся в файле https://github.com/lukyanovnd/Fin_project_innopolis/blob/main/Fin_project_innopolis/requirements.txt
 
 ## Deploy и CI/CD
-Для развертывания приложения выполните 
+Для развертывания приложения выполните сборку контейнера с помощью команды 
+docker build -t my-python-app .
+docker save -o my-python-app.tar my-python-app
 
-## FAQ 
-Если потребители вашего кода часто задают одни и те же вопросы, добавьте ответы на них в этом разделе.
+Затем перенести файл образа на сервер
+scp my-python-app.tar user@your-server:/path/to/destination/
+docker load -i my-python-app.tar
+Запустить контейнеры 
+docker network create my-network
+docker run -d --name qdrant --network my-network -p 6333:6333 -p 6334:6334 qdrant/qdrant
+docker run -d --name my-app --network my-network -p 8000:8000 -e QDRANT_HOST=qdrant your-image
+
 
 ### Зачем вы разработали этот проект?
-Чтобы был.
+Улучшение качества публикуемых в ИРНИТУ учебно-методических работ.
 
 ## Команда проекта
-Оставьте пользователям контакты и инструкции, как связаться с командой разработки.
 
-- [Богдан Звягинцев](tg://resolve?domain=bzvyagintsev) — Front-End Engineer
+- [Лукьянов Никита](Lukyanovnd@istu.edu)
 
 ## Источники
-Если вы чем-то вдохновлялись, расскажите об этом: где брали идеи, какие туториалы смотрели, ссылки на исходники кода. 
+Курс Иннополиса "Аналитика данных и машинное обучение" https://lms.unionepro.ru/courses/23c8c961-9a27-4960-2f54-08ddbfa1139b
