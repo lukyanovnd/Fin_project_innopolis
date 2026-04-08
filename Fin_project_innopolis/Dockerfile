@@ -16,5 +16,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Команда для запуска приложения при старте контейнера.
-# Замените "your_script.py" на имя вашего главного файла.
 CMD ["streamlit", "run", "main.py", "--server.port=8000", "--server.address=0.0.0.0"]
